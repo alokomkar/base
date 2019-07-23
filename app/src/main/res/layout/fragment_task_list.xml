@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+             tools:context=".TaskListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/item_task"
+            android:id="@+id/rvTasks"/>
+
+    <TextView
+            android:id="@+id/tvEmptyView"
+            style="@style/TextAppearance.AppCompat.Large.EmptyText"
+            android:text="@string/no_tasks_added_yet"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_gravity="end|bottom"
+            android:id="@+id/fabAddTask"
+            app:backgroundTint="@android:color/holo_green_light"
+            app:srcCompat="@drawable/ic_add_white"/>
+
+</FrameLayout>
