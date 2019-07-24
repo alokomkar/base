@@ -26,4 +26,5 @@ abstract class TaskDao : BaseDao<Task> {
 
     @Query("SELECT * FROM Task ORDER BY priority ASC")
     abstract fun fetchAllByLowPriority()
+
 }

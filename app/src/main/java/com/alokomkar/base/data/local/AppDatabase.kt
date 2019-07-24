@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.alokomkar.base.AppExecutors
 import com.alokomkar.base.R
 import com.alokomkar.base.data.model.Task
 
@@ -16,7 +17,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private var dbInstance : AppDatabase?= null
 
-        fun getDbInstance( application: Application) : AppDatabase {
+        fun getDbInstance( application: Application, appExecutors: AppExecutors ) : AppDatabase {
             if (dbInstance == null) {
                 synchronized(AppDatabase::class.java) {
                     if (dbInstance == null) {
