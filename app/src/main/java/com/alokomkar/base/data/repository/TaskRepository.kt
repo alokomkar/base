@@ -20,7 +20,6 @@ class TaskRepository( private val serviceLocator: ServiceLocator, private val ap
             override fun createNetworkCall(): LiveData<ApiResponse<Task>> {
                 val responseLiveData : MutableLiveData<ApiResponse<Task>> = MutableLiveData()
                 responseLiveData.value = null
-
                 serviceLocator.remoteDataSource.fetchTaskById(taskId).observeForever {
                         task -> responseLiveData.value = ApiResponse.create(Response(null, task))
                 }
@@ -32,7 +31,7 @@ class TaskRepository( private val serviceLocator: ServiceLocator, private val ap
 
 
             override fun shouldFetch(data: Task?): Boolean {
-                return data == null
+                return data == null || serviceLocator.isNetworkConnected
             }
 
         }.asLiveData()
@@ -48,7 +47,6 @@ class TaskRepository( private val serviceLocator: ServiceLocator, private val ap
             override fun createNetworkCall(): LiveData<ApiResponse<List<Task>>> {
                 val responseLiveData : MutableLiveData<ApiResponse<List<Task>>> = MutableLiveData()
                 responseLiveData.value = null
-
                 serviceLocator.remoteDataSource.fetchAllTasks().observeForever {
                     tasksList -> responseLiveData.value = ApiResponse.create(Response(null, tasksList))
                 }
@@ -60,11 +58,16 @@ class TaskRepository( private val serviceLocator: ServiceLocator, private val ap
 
 
             override fun shouldFetch(data: List<Task>?): Boolean {
-                return data == null || data.isEmpty() //|| some other criteria
+                return data == null || data.isEmpty() || serviceLocator.isNetworkConnected
             }
 
 
         }.asLiveData()
+    }
+
+    fun createTask( task: Task ) {
+        serviceLocator.localDataSource.createTask(task)
+        serviceLocator.remoteDataSource.createTask(task)
     }
 
 }

@@ -15,23 +15,17 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
-        private var dbInstance : AppDatabase?= null
+        @Volatile private var INSTANCE: AppDatabase? = null
 
-        fun getDbInstance( application: Application, appExecutors: AppExecutors ) : AppDatabase {
-            if (dbInstance == null) {
-                synchronized(AppDatabase::class.java) {
-                    if (dbInstance == null) {
-                        dbInstance = Room.databaseBuilder(application,
-                            AppDatabase::class.java, application.getString(R.string.local_database_name))
-                            .addCallback(object  : RoomDatabase.Callback() {
-                                //val dbInstance = getDbInstance(application)
-                            })
-                            .build()
-
-                    }
-                }
+        fun getInstance(application: Application, appExecutors: AppExecutors ): AppDatabase =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: buildDatabase(application).also { INSTANCE = it }
             }
-            return dbInstance!!
-        }
+
+        private fun buildDatabase(application: Application) =
+            Room.databaseBuilder(application,
+                AppDatabase::class.java, application.getString(R.string.local_database_name))
+                .build()
+
     }
 }
