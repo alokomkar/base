@@ -4,14 +4,14 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main_navigation"
             app:startDestination="@id/taskListFragment">
 
-    <fragment android:id="@+id/taskListFragment" android:name="com.alokomkar.base.TaskListFragment"
+    <fragment android:id="@+id/taskListFragment" android:name="com.alokomkar.base.ui.task.TaskListFragment"
               android:label="fragment_task_list" tools:layout="@layout/fragment_task_list">
         <action android:id="@+id/action_taskListFragment_to_taskDetailsFragment"
                 app:destination="@id/taskDetailsFragment" app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" app:popUpTo="@+id/taskListFragment"/>
     </fragment>
-    <fragment android:id="@+id/taskDetailsFragment" android:name="com.alokomkar.base.TaskDetailsFragment"
+    <fragment android:id="@+id/taskDetailsFragment" android:name="com.alokomkar.base.ui.task.TaskDetailsFragment"
               android:label="fragment_task_details" tools:layout="@layout/fragment_task_details">
         <argument android:name="taskId" app:argType="string"/>
     </fragment>

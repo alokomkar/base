@@ -11,10 +11,4 @@ class TaskApplication : Application() {
 
     fun getTaskRepository() = TaskRepository( serviceLocator, appExecutors )
 
-    override fun onCreate() {
-        super.onCreate()
-
-    }
-
-
 }

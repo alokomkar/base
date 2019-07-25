@@ -3,7 +3,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-             tools:context=".TaskListFragment">
+             tools:context=".ui.task.TaskListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -16,6 +16,7 @@
 
     <TextView
             android:id="@+id/tvEmptyView"
+            android:visibility="gone"
             style="@style/TextAppearance.AppCompat.Large.EmptyText"
             android:text="@string/no_tasks_added_yet"/>
 
@@ -27,5 +28,11 @@
             android:id="@+id/fabAddTask"
             app:backgroundTint="@android:color/holo_green_light"
             app:srcCompat="@drawable/ic_add_white"/>
+
+    <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/pbLoading"/>
 
 </FrameLayout>

@@ -6,29 +6,25 @@ import com.alokomkar.base.data.model.Task
 
 class LocalDataSource( private val appDatabase: AppDatabase ) : DataSource {
 
-    override fun fetchAllTasks(): LiveData<List<Task>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun fetchAllTasks(): LiveData<List<Task>>
+            = appDatabase.taskDao().fetchAll()
 
-    override fun fetchTaskById(taskId: String): LiveData<Task> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun fetchTaskById(taskId: String): LiveData<Task>
+            = appDatabase.taskDao().fetchTaskById(taskId)
 
-    override fun createTask(task: Task) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    override fun updateTask(task: Task) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun createTask(task: Task)
+            = appDatabase.taskDao().insert(task)
 
-    override fun deleteTask(task: Task) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun updateTask(task: Task)
+            = appDatabase.taskDao().update(task)
+
+    override fun deleteTask(task: Task)
+            = appDatabase.taskDao().delete(task)
 
     fun insertAllTasks(item: List<Task>) {
         appDatabase.runInTransaction {
-            appDatabase.taskDao().insertAll(item)
+            item.forEach { task ->  appDatabase.taskDao().insert(task) }
         }
     }
 

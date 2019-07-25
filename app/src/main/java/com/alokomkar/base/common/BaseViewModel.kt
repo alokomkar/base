@@ -1,5 +1,9 @@
 package com.alokomkar.base.common
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.alokomkar.base.TaskApplication
 
-abstract class BaseViewModel : ViewModel()
+abstract class BaseViewModel( application: Application ) : AndroidViewModel(application) {
+    val taskApplication : TaskApplication = application as TaskApplication
+}

@@ -11,20 +11,32 @@ import com.alokomkar.base.data.remote.Response
 
 class TaskRepository( private val serviceLocator: ServiceLocator, private val appExecutors: AppExecutors ) {
 
-    /*private val allTasksLiveData : LiveData<List<Task>?> = MutableLiveData()
+    fun getTaskById( taskId : String ) : LiveData<Resource<Task>> {
+        return object : NetworkBoundResource<Task, Task>( appExecutors ) {
+            override fun saveCallResultToLocalDb(item: Task) {
+                serviceLocator.localDataSource.updateTask(item)
+            }
 
-    fun fetchAllTasks() : LiveData<List<Task>?> {
+            override fun createNetworkCall(): LiveData<ApiResponse<Task>> {
+                val responseLiveData : MutableLiveData<ApiResponse<Task>> = MutableLiveData()
+                responseLiveData.value = null
 
-        val allTasksLocal = serviceLocator.localDataSource.fetchAllTasks()
-        val allTasksRemote = serviceLocator.remoteDataSource.fetchAllTasks()
+                serviceLocator.remoteDataSource.fetchTaskById(taskId).observeForever {
+                        task -> responseLiveData.value = ApiResponse.create(Response(null, task))
+                }
+                return responseLiveData
+            }
 
-        val mergedTasks : MediatorLiveData<List<Task>?> = MediatorLiveData()
-        mergedTasks.addSource(allTasksLocal) { t -> mergedTasks.value = t }
-        mergedTasks.addSource(allTasksRemote) { t -> (mergedTasks.value as ArrayList).addAll(t) }
+            override fun loadFromLocalDatabase(): LiveData<Task>
+                    = serviceLocator.localDataSource.fetchTaskById(taskId)
 
-        (allTasksLiveData as MutableLiveData).value = mergedTasks.value
-        return allTasksLiveData
-    }*/
+
+            override fun shouldFetch(data: Task?): Boolean {
+                return data == null
+            }
+
+        }.asLiveData()
+    }
 
     fun fetchAllTasksResource() : LiveData<Resource<List<Task>>> {
         return object : NetworkBoundResource<List<Task>, List<Task>>( appExecutors ) {
@@ -43,7 +55,8 @@ class TaskRepository( private val serviceLocator: ServiceLocator, private val ap
                 return responseLiveData
             }
 
-            override fun loadFromLocalDatabase(): LiveData<List<Task>> = serviceLocator.localDataSource.fetchAllTasks()
+            override fun loadFromLocalDatabase(): LiveData<List<Task>>
+                    = serviceLocator.localDataSource.fetchAllTasks()
 
 
             override fun shouldFetch(data: List<Task>?): Boolean {
